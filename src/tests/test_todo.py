@@ -1,11 +1,6 @@
-# spycfg
-
-in process, nothing to show
+import unittest
 
 
-# @todo:
-
-```python
 class TodoTestCase(unittest.TestCase):
     def test_support_dev_envs(self):
         self.skipTest('Not implemented')
@@ -64,4 +59,4 @@ class TodoTestCase(unittest.TestCase):
     def test_django_integration(self):
         self.skipTest('')
 
-```
+
