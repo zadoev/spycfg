@@ -2,15 +2,13 @@
 
 in process, nothing to show
 
+current functionality in examples. 
 
 # @todo:
 
 ```python
 class TodoTestCase(unittest.TestCase):
     def test_support_dev_envs(self):
-        self.skipTest('Not implemented')
-
-    def test_env_vars_can_ovverride_cfg(self):
         self.skipTest('Not implemented')
 
     def test_command_line_args_can_ovverraide_cfg_then_env_vars(self):

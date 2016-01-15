@@ -7,6 +7,8 @@ sys.path.append(
 
 from spycfg import SpyCfg
 
+# or you can ran previous example with env
+os.environ['KEY1'] = 'hello from env'
 
 cfg = SpyCfg('src/tests/fixtures/simple.json', cfg_type=SpyCfg.JSON)
 
