@@ -6,15 +6,26 @@ import spycfg.errors
 import spycfg.generators
 
 
-class SpyCfg(dict):
+class DictCfg(dict):
+    """
+    Just to have ability makes configs from dicts
+    """
+
+
+class SpyCfg(DictCfg):
     JSON = 'json'
 
-    def __init__(self, cfg_path, cfg_type=None):
+    def __init__(self, cfg_path, cfg_type=None, env=None):
+        self.cfg_type = cfg_type
         dict_from_data = self.read_file(cfg_path)
 
         self.apply_environments(dict_from_data)
 
         super(SpyCfg, self).__init__(dict_from_data)
+
+        if env is not None:
+            env_cfg = SpyCfg(self.locate_file_by_path_and_name(cfg_path, env))
+            self.update(env_cfg)
 
     @staticmethod
     def read_file(cfg_path) -> str:
@@ -31,6 +42,13 @@ class SpyCfg(dict):
         file_data = f.read()
         dict_from_data = json.loads(file_data)
         return dict_from_data
+
+    @staticmethod
+    def locate_file_by_path_and_name(path, file_name):
+        file_name += '.json'
+        path = list(os.path.split(path))
+        path.pop()
+        return os.path.join(*path, file_name)
 
     @staticmethod
     def apply_environments(cfg):

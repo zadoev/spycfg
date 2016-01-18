@@ -1,4 +1,7 @@
+import json
+
 import spycfg.errors
+
 from spycfg import SpyCfg
 from tests.helpers import BaseTestCase
 
@@ -15,3 +18,9 @@ class CreateTestCase(BaseTestCase):
         cfg = SpyCfg(self.SIMPLE_JSON_CONFIG, cfg_type=SpyCfg.JSON)
 
         self.assertEqual(cfg['key1'], 'key1')
+
+    def test_dev_env_config_loaded_and_overrides_default(self):
+        dev_cfg = json.loads(self.file_content(self.DEV_CONFIG))
+        cfg = SpyCfg(self.SIMPLE_JSON_CONFIG, cfg_type=SpyCfg.JSON, env='DEV')
+
+        self.assertEquals(cfg['key1'], dev_cfg['key1'])

@@ -2,8 +2,17 @@ import unittest
 
 
 class TodoTestCase(unittest.TestCase):
+    def test_new_env_cfg(self):
+        self.skipTest('uses name of env to find config')
+
+    def better_file_locator_with_io_errors(self):
+        self.skipTest('')
+
     def test_support_dev_envs(self):
         self.skipTest('Not implemented')
+
+    def test_avoid_apply_env_twice_when_put_together(self):
+        self.skipTest('')
 
     def test_env_vars_not_overrides_dicts(self):
         self.skipTest('Not implemented')
@@ -11,7 +20,7 @@ class TodoTestCase(unittest.TestCase):
     def test_env_vars_not_overrides_lists(self):
         self.skipTest('Not implemented')
 
-    def test_command_line_args_can_ovverraide_cfg_then_env_vars(self):
+    def test_command_line_args_can_override_cfg_then_env_vars(self):
         self.skipTest('Not implemented')
 
     def test_validation(self):
@@ -29,10 +38,10 @@ class TodoTestCase(unittest.TestCase):
     def test_support_ini_format(self):
         self.skipTest('Not implemented')
 
-    def test_support_autodect_format_by_ext(self):
+    def test_support_autodetect_format_by_ext(self):
         self.skipTest('')
 
-    def test_support_autodect_format_if_by_ext_failed(self):
+    def test_support_autodetect_format_if_by_ext_failed(self):
         self.skipTest('')
 
     def test_server_for_edit(self):
