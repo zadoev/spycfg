@@ -2,8 +2,20 @@ import os
 import json
 import functools
 
+import configparser
+from io import StringIO
+
 import spycfg.errors
 import spycfg.generators
+
+
+INI_CFG = 'ini'
+JSON_CFG = 'json'
+
+CONFIG_TYPES = {
+    INI_CFG: INI_CFG,
+    JSON_CFG: JSON_CFG,
+}
 
 
 class DictCfg(dict):
@@ -13,11 +25,24 @@ class DictCfg(dict):
 
 
 class SpyCfg(DictCfg):
-    JSON = 'json'
+    def __init__(self, cfg_path, cfg_type=JSON_CFG, env=None):
 
-    def __init__(self, cfg_path, cfg_type=None, env=None):
         self.cfg_type = cfg_type
-        dict_from_data = self.read_file(cfg_path)
+
+        file_data = self.read_file(cfg_path)
+
+        if self.cfg_type == JSON_CFG:
+            dict_from_data = json.loads(file_data)
+        elif self.cfg_type == INI_CFG:
+            config = configparser.ConfigParser()
+            try:
+                config.read_file(StringIO(file_data), None)
+                dict_from_data = config._sections
+            except configparser.MissingSectionHeaderError:
+                config.read_file(StringIO('[default]\n' + file_data))
+                dict_from_data = dict(config._sections)
+                del dict_from_data['default']
+                dict_from_data.update(config._sections['default'])
 
         self.apply_environments(dict_from_data)
 
@@ -40,8 +65,9 @@ class SpyCfg(DictCfg):
         except IOError as e:
             raise spycfg.errors.IOError("IOError") from e
         file_data = f.read()
-        dict_from_data = json.loads(file_data)
-        return dict_from_data
+        return file_data
+        # dict_from_data = json.loads(file_data)
+        # return dict_from_data
 
     @staticmethod
     def locate_file_by_path_and_name(path, file_name):
